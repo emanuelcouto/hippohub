@@ -1,8 +1,8 @@
 # pre-build stage
 FROM ruby:3.3.3-alpine3.19 AS pre-builder
 
-# Instalar pacotes necessários para compilar gems nativas no Ubuntu/Debian
-RUN apt-get update && apt-get install -y build-essential git
+# Instalar pacotes necessários para compilar gems nativas no Alpine Linux
+RUN apk update && apk add --no-cache build-base git
 
 # ARG default to production settings
 # For development docker-compose file overrides ARGS
