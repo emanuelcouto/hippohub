@@ -1,7 +1,20 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Convite para usar a plataforma</title>
   <style>
+    /* Importando a fonte Poppins */
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+    /* Aplicando o fundo e a borda no head */
+    head {
+      background-color: #efefef;
+      border-top: 2px solid #5a189a;
+    }
+
     /* Box e imagem com tamanho ajustável */
     .box {
       width: 100%;
@@ -12,51 +25,71 @@
       border: 1px solid #5a189a;
     }
 
-    /* Imagem padrão para tema claro */
+    /* Imagem fixa dentro do box */
     .theme-image {
       width: 100px; /* Ajuste a largura conforme necessário */
-      height: 100px; /* Ajuste a altura conforme necessário */
+      height: 80px; /* Ajuste a altura conforme necessário */
       object-fit: contain;
       margin-bottom: 20px;
       background-size: contain;
+      background-image: url('https://github.com/user-attachments/assets/77993fb4-420c-423e-b103-dbf9d7118725'); /* Imagem fixa */
     }
 
-    /* Substituir a imagem para tema escuro */
-    @media (prefers-color-scheme: dark) {
-      .theme-image {
-        background-image: url('https://github.com/user-attachments/assets/714e36ad-5fc6-41c5-bf2e-4c2a91fba329');
-      }
+    /* Estilo de textos */
+    body, p {
+      color: #433344; /* Cor dos textos */
+      font-family: 'Poppins', sans-serif; /* Fonte Poppins */
+    }
+
+    /* Estilo do primeiro texto abaixo da imagem */
+    .arista-text {
+      font-family: 'Arista Pro', sans-serif; /* Fonte Arista Pro */
+      font-size: 24px;
+      font-weight: bold;
+      color: #433344;
+    }
+
+    /* Estilo do link do botão */
+    a {
+      display: inline-block;
+      padding: 15px 25px;
+      font-size: 18px;
+      font-family: 'Poppins', sans-serif;
+      background-color: #5a189a;
+      color: #ffffff;
+      text-decoration: none;
+      border-radius: 10px;
     }
   </style>
 </head>
-<body style="margin: 0; padding: 0; font-family: Arial, sans-serif; text-align: center;">
+<body style="margin: 0; padding: 0; text-align: center;">
   
   <div class="box">
-    <!-- Imagem que se ajusta conforme o tema do dispositivo -->
-    <div class="theme-image" style="background-image: url('https://github.com/user-attachments/assets/d76ffd45-7ace-43d8-b59c-fc3c936cec5d');"></div>
+    <!-- Imagem fixa no box -->
+    <div class="theme-image"></div>
     
-    <p style="font-size: 24px; font-family: Arial; font-weight: bold;">Convite para usar a plataforma <%= global_config['BRAND_NAME'] || 'HippoHub' %></p>
+    <p class="arista-text">Convite para usar a plataforma <%= global_config['BRAND_NAME'] %></p>
     
     <div style="margin: 10px 0; border-top: 1px solid #eeeeee;"></div>
     
-    <div style="font-size: 16px; font-family: Arial, sans-serif; text-align: center;">
+    <div style="font-size: 16px; text-align: center;">
       <p>Olá, <b><%= @resource.name %></b>, tudo bem?</p>
       <% account_user = @resource&.account_users&.first %>
       <% if account_user&.inviter.present? %>
-        <p>Você foi convidado pelo <b><%= account_user.inviter.name %></b> da <b><%= account_user.account.name %></b> para se juntar à equipe na nova plataforma de atendimento <b><%= global_config['BRAND_NAME'] || 'Chatwoot' %></b></p>
+        <p>Você foi convidado pelo <b><%= account_user.inviter.name %></b> da <b><%= account_user.account.name %></b> para se juntar à equipe na nova plataforma de atendimento <b><%= global_config['BRAND_NAME'] %></b></p>
       <% end %>
       <p>Você pode criar uma senha para acessar sua conta clicando no botão abaixo:</p>
     </div>
     
     <div style="text-align: center;">
       <% if @resource.unconfirmed_email.present? %>
-        <p><a href="<%= frontend_url('auth/confirmation', confirmation_token: @token) %>" style="display: inline-block; padding: 15px 25px; font-size: 18px; font-family: Arial; background-color: #5a189a color: #ffffff; text-decoration: none; border-radius: 0;">Junte-se a nós!</a></p>
+        <p><a href="<%= frontend_url('auth/confirmation', confirmation_token: @token) %>">Junte-se a nós!</a></p>
       <% elsif @resource.confirmed? %>
-        <p><a href="<%= frontend_url('auth/sign_in') %>" style="display: inline-block; padding: 15px 25px; font-size: 18px; font-family: Arial; background-color: #5a189a; color: #ffffff; text-decoration: none; border-radius: 0;">Junte-se a nós!</a></p>
+        <p><a href="<%= frontend_url('auth/sign_in') %>">Junte-se a nós!</a></p>
       <% elsif account_user&.inviter.present? %>
-        <p><a href="<%= frontend_url('auth/password/edit', reset_password_token: @resource.send(:set_reset_password_token)) %>" style="display: inline-block; padding: 15px 25px; font-size: 18px; font-family: Arial; background-color: #5a189a; color: #ffffff; text-decoration: none; border-radius: 0;">Junte-se a nós!</a></p>
+        <p><a href="<%= frontend_url('auth/password/edit', reset_password_token: @resource.send(:set_reset_password_token)) %>">Junte-se a nós!</a></p>
       <% else %>
-        <p><a href="<%= frontend_url('auth/confirmation', confirmation_token: @token) %>" style="display: inline-block; padding: 15px 25px; font-size: 18px; font-family: Arial; background-color: #5a189a; color: #ffffff; text-decoration: none; border-radius: 0;">Junte-se a nós!</a></p>
+        <p><a href="<%= frontend_url('auth/confirmation', confirmation_token: @token) %>">Junte-se a nós!</a></p>
       <% end %>
     </div>
   </div>
